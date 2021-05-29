@@ -59,6 +59,7 @@ void embedlua_test ()
 
 	/* load script */
 	luaL_dofile(l, "mood.lua");
+	// luaL_dofile(l, "LuaPanda.lua");
 
 	/* call mood() provided by script */
 	lua_getglobal(l, "mood");

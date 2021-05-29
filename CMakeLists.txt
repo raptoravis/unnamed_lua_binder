@@ -36,5 +36,5 @@ target_link_libraries ( ${PROJECT_NAME} ${LUA_LIB} )
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy_if_different ${LUA_FILES} ${CMAKE_CURRENT_BINARY_DIR}
 				)
-					
 
+			

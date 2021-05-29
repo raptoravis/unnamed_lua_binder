@@ -1,5 +1,8 @@
 --mood.lua
 
+--require("socket.core")
+--require("LuaPanda").start("127.0.0.1",8818);
+
 -- Get version information from host
 major, minor, build = hostgetversion()
 print( "The host version is ", major, minor, build)

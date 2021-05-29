@@ -1,4 +1,3 @@
-
 do
     print("-----------------------variadic arguments test")
 
@@ -6,11 +5,11 @@ do
         print(tab.name .. " is " .. (tab.age or "unknown") .. " years old and likes " .. (tab.hobby or "nothing"))
     end
 
-    local john = {name="john", hobby="golf", age="over 9000", comment="plays too much golf"}
+    local john = {name = "john", hobby = "golf", age = "over 9000", comment = "plays too much golf"}
     B(john)
 
     B({name = "tim"})
-    B{name = "tim"}
+    B {name = "tim"}
 
     function head(x, ...)
         return x
@@ -27,9 +26,8 @@ do
         end
         return result / #arg
     end
-    
+
     print("The average is", average(10, 5, 3, 4, 5, 6))
-    
 end
 
 do
@@ -37,7 +35,7 @@ do
 
     local t1, t2, t3, t4 = {1}, {2}, {3}, {4} -- Create 4 tables
     local maintab = {t1, t2} -- Regular table, strong references to t1 and t2
-    local weaktab = setmetatable({t1, t2, t3, t4}, {__mode = 'v'}) -- table with weak references.
+    local weaktab = setmetatable({t1, t2, t3, t4}, {__mode = "v"}) -- table with weak references.
 
     t1, t2, t3, t4 = nil, nil, nil, nil -- No more "strong" references to t3 and t4
     print(#maintab, #weaktab) --> 2 4
@@ -46,20 +44,20 @@ do
     print(#maintab, #weaktab) --> 2 2
 end
 
-
 do
     print("-----------------------table test")
 
     fruits = {"banana", "orange", "apple"}
     print(table.concat(fruits, ","))
-    
+
     table.remove(fruits)
     print(table.concat(fruits, ","))
-    
+
     table.sort(fruits)
     print(table.concat(fruits, ","))
-    
-    mytable = setmetatable(
+
+    mytable =
+        setmetatable(
         {key1 = "value1"},
         {
             __index = function(mytable, key)
@@ -90,8 +88,6 @@ do
     You can see in the above program, if a key exists in the main table, it just updates it. 
     When a key is not available in the maintable, it adds that key to the metatable.
     --]]
-
-    
     mytable =
         setmetatable(
         {key1 = "value1"},
@@ -106,28 +102,43 @@ do
     mytable.key1 = "new value"
     mytable.key2 = 4
 
-    print(mytable.key1, mytable.key2)   
-    
+    print(mytable.key1, mytable.key2)
 end
 
 do
     print("-----------------------meta test")
 
-    local meta = { } -- create a table for use as metatable
+    local meta = {} -- create a table for use as metatable
 
     -- a metatable can change the behaviour of many things
     -- here we modify the 'tostring' operation:
     -- this fields should be a function with one argument.
     -- it gets called with the respective object and should return a string
-    meta.__tostring = function (object)
+    meta.__tostring = function(object)
         return string.format("{ %d, %d }", object.x, object.y)
     end
-    
+
     -- create an object
-    local point = { x = 13, y = -2 }
+    local point = {x = 13, y = -2}
     -- set the metatable
     setmetatable(point, meta)
-    
+
     -- since 'print' calls 'tostring', we can use it directly:
     print(point) -- prints '{ 13, -2 }'
-end    
+
+    do
+        local meta = {
+            __gc = function(self)
+                print("destroying self: " .. self.name)
+            end
+        }
+
+        local t = setmetatable({name = "outer"}, meta)
+        do
+            local t = {name = "inner"}
+            setmetatable(t, meta)
+        end
+
+        print("\n")
+    end
+end
