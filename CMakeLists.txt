@@ -28,12 +28,17 @@ target_link_libraries ( ${LIB_LUASOCKET} ${LUA_LIB} )
 #set(SOURCES src/mainapp.cpp src/Student.cpp)
 
 # file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "*.cpp")
-file(GLOB SOURCES "src/*.cpp" "src/*.h")
-file(GLOB LUA_FILES 
-    #RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} 
+file(GLOB_RECURSE SOURCES 
+    RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} 
+    "src/*.cpp" "src/*.h")
+
+file(GLOB_RECURSE LUA_FILES 
+    RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} 
     "src/lua/*.lua")
 
-#source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${LUA_FILES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${LUA_FILES})
+
 #source_group(lua FILES ${LUA_FILES})
 
 #Generate the shared library from the sources
@@ -49,9 +54,16 @@ add_executable ( ${PROJECT_NAME} ${SOURCES} ${LUA_FILES} )
 
 target_link_libraries ( ${PROJECT_NAME} ${LUA_LIB} ${LIB_LUASOCKET} Ws2_32 )
 
+# copy lua files
+set (LUA_FILES_FULLPATH "")
+
+foreach(FILENAME ${LUA_FILES})
+    set(SRC "${CMAKE_CURRENT_SOURCE_DIR}/${FILENAME}")
+    list(APPEND LUA_FILES_FULLPATH ${SRC})
+endforeach(FILENAME)
+
+
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                 #COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/lua
-                COMMAND ${CMAKE_COMMAND} -E copy_if_different ${LUA_FILES} ${CMAKE_CURRENT_BINARY_DIR}
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different ${LUA_FILES_FULLPATH} ${CMAKE_CURRENT_BINARY_DIR}
 				)
-
-			
