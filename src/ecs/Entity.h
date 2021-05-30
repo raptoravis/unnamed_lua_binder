@@ -4,6 +4,12 @@
 #include <string>
 #include <typeindex>
 
+extern "C" {
+	#include "lua.h"
+	#include "lauxlib.h"
+	#include "lualib.h"
+}
+
 class Component;
 
 class Entity {
@@ -31,3 +37,10 @@ private:
     std::string type;
     std::map<std::type_index, Component*> components;
 };
+
+template <typename T>
+void addComponent(Entity* e) {
+    e->addComponent(std::type_index(typeid(T)), new T());
+}
+
+Entity* loadEntity(lua_State* L, const std::string& type);

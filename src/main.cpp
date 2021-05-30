@@ -95,6 +95,8 @@ void embedlua_test (const char* lua_file)
 void Character_test(const char* lua_file);
 void luabridge_test(const char* lua_file);
 void luabridge_test_character();
+void ecs_test();
+
 
 int main() {
 	luascript_test("Player.lua");
@@ -106,6 +108,8 @@ int main() {
 	luabridge_test("luabridge_test.lua");
 
 	luabridge_test_character();
+
+	ecs_test();
 
 	return 0;
 }
