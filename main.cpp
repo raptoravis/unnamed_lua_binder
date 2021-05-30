@@ -3,6 +3,9 @@
 
 #include "LuaScript.h"
 
+#include "LibLuasocket.h"
+
+
 void luascript_test() {
     LuaScript script("Player.lua");
     float posX = script.get<float>("player.position.x");
@@ -49,10 +52,13 @@ static int hostgetversion(lua_State *l)
 	return 3;
 }
 
+
 void embedlua_test ()
 {
 	lua_State *l = luaL_newstate();
 	luaL_openlibs(l);
+
+	FLibLuasocketModule::SetupLuasocket(l);
 
 	/* register host API for script */
 	lua_register(l, "hostgetversion", hostgetversion);
