@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 set (PROJECT_NAME luascirpt)
 
 project(${PROJECT_NAME} VERSION 1.0)
@@ -27,7 +29,12 @@ target_link_libraries ( ${LIB_LUASOCKET} ${LUA_LIB} )
 
 # file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "*.cpp")
 file(GLOB SOURCES "src/*.cpp" "src/*.h")
-file(GLOB LUA_FILES "src/lua/*.lua")
+file(GLOB LUA_FILES 
+    #RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} 
+    "src/lua/*.lua")
+
+#source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${LUA_FILES})
+#source_group(lua FILES ${LUA_FILES})
 
 #Generate the shared library from the sources
 #add_library(testStudent SHARED ${SOURCES})
