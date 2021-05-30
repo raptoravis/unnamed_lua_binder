@@ -5,7 +5,7 @@
 
 class GraphicsComponent : public Component {
 public:
-    GraphicsComponent() {};
+    GraphicsComponent(luabridge::LuaRef& componentTable);
 
     void setFilename(const std::string& filename) {
         this->filename = filename;

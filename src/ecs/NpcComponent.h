@@ -5,7 +5,7 @@
 
 class NpcComponent : public Component {
 public:
-    NpcComponent() {};
+    NpcComponent(luabridge::LuaRef& componentTable);
 
     void setPhrase(const std::string& phrase) {
         this->phrase = phrase;

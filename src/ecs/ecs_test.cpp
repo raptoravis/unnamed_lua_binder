@@ -12,7 +12,7 @@ void ecs_test() {
 		L = 0;
 	}
 
-    auto e = loadEntity(L, "ghost");
+    auto e = Entity::loadEntity(L, "ghost");
 
 	lua_close(L);
 }
