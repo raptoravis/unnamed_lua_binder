@@ -142,3 +142,68 @@ do
         print("\n")
     end
 end
+
+do
+    --default fields to a class
+	local Class = {health = 100} -- objects and classes will be tables
+    
+    -- table[key] translates into meta.__index(table, key)
+    --Some metamethods don't have to be functions.
+    --To most important example for this is the __index metamethod.
+    --It can also be a table, which is then used as lookup.
+    local __meta = {__index = Class}
+	
+    function Class.new()
+		return setmetatable({}, __meta) -- this is shorter and equivalent to:
+
+		-- local new_instance = {}
+		-- setmetatable(new_instance, __meta)
+		-- return new_instance
+	end
+
+	function Class.print()
+		print "I am an instance of 'class'"
+	end
+
+    --Instance methods can be written by passing the object as the first argument.
+    function Class.sayhello(self)
+        print("hello, I am ", self)
+    end
+
+    --There is some syntactic sugar for this
+    function Class:saybye(phrase)
+        print("I am " .. tostring(self) .. "\n" .. phrase)
+    end
+    
+	local object = Class.new()
+	object.print() --> will print "I am an instance of 'class'"
+
+    object.sayhello(object) --> will print "hello, I am <table ID>"
+    object.sayhello() --> will print "hello, I am nil"
+    object:sayhello() --> will print "hello, I am nil"
+
+    object:saybye("c ya") --> will print "I am <table ID>
+                          -->             c ya"    
+    print(object.health) --> prints 100
+    object.health = 200 -- This does NOT index Class
+    print(object.health) --> prints 200
+
+    setmetatable(
+       object,
+        setmetatable(
+            {__call=table.concat},
+            {__index=getmetatable(object)}
+        )
+    )
+
+    object()
+
+    -- object.print()
+    -------------------------------------------------
+    setmetatable(Class, {__call = Class.new})
+    -- Allow the class itself to be called like a function
+    object = Class()
+
+    object:sayhello()
+
+end
