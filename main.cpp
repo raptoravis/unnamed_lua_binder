@@ -5,7 +5,7 @@
 
 #include "LibLuasocket.h"
 
-
+//https://eliasdaler.wordpress.com/2013/10/11/lua_cpp_binder/
 void luascript_test() {
     LuaScript script("Player.lua");
     float posX = script.get<float>("player.position.x");
@@ -52,7 +52,7 @@ static int hostgetversion(lua_State *l)
 	return 3;
 }
 
-
+//https://riptutorial.com/lua/example/3129/calling--lua-functions
 void embedlua_test ()
 {
 	lua_State *l = luaL_newstate();
@@ -62,10 +62,19 @@ void embedlua_test ()
 
 	/* register host API for script */
 	lua_register(l, "hostgetversion", hostgetversion);
+	/**
+	lua_pushcfunction(L, hostgetversion);
+	lua_setglobal(L, "hostgetversion"); // this is how function will be named in Lua
+	*/
 
 	/* load script */
 	luaL_dofile(l, "mood.lua");
-	// luaL_dofile(l, "LuaPanda.lua");
+	/**
+	if (luaL_loadfile(L, "mood.lua")) {
+		std::cout<<"Error loading script"<<std::endl;
+	}
+	lua_pcall(L, 0, 0, 0); // run script
+	*/
 
 	/* call mood() provided by script */
 	lua_getglobal(l, "mood");
@@ -77,11 +86,15 @@ void embedlua_test ()
 	lua_close(l);
 }
 
+void Character_test();
+
 
 int main() {
 	luascript_test();
 
 	embedlua_test();
+
+	Character_test();
 
 	return 0;
 }

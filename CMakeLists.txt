@@ -7,10 +7,10 @@ project(${PROJECT_NAME} VERSION 1.0)
 set (LUA_LIB lua54)
 
 SET (LUA_ROOT_PATH thirdparty/lua/lua-5.4.2_Win64_vc15_lib/)
-set (LIB_LUASOCKET_PATH LibLuasocket)
+set (LIB_LUASOCKET_PATH thirdparty/LibLuasocket)
 
 
-include_directories(${LUA_ROOT_PATH}/include)
+include_directories(${LUA_ROOT_PATH}/include thirdparty/luawrapper)
 link_directories(${LUA_ROOT_PATH}/)
 
 set (LIB_LUASOCKET libluasocket)
