@@ -5,7 +5,12 @@ number = 42
 
 window = {
     title = "Window v.0.1",
-    width = 400,
-    height = 500
+	size = {
+        w = 400,
+        h = 500
+    },
+
+    posx = 400,
+    posy = 500
 }
 

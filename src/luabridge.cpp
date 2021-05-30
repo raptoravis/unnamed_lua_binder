@@ -41,16 +41,33 @@ void luabridge_test(const char* lua_file) {
 			std::cout << "Variable not found!" << std::endl;
 		} else {
 			luabridge::LuaRef title = t["title"];
-			luabridge::LuaRef w = t["width"];
-			luabridge::LuaRef h = t["height"];
 
 			std::string titleString = title.cast<std::string>();
-			int width = w.cast<int>();
-			int height = h.cast<int>();
-
 			std::cout << titleString << std::endl;
-			std::cout << "width = " << width << std::endl;
-			std::cout << "height = " << height << std::endl;
+
+			luabridge::LuaRef size = t["size"];
+
+			{
+				luabridge::LuaRef w = size["w"];
+				luabridge::LuaRef h = size["h"];
+				int width = w.cast<int>();
+				int height = h.cast<int>();
+
+				std::cout << "size.w = " << width << std::endl;
+				std::cout << "size.h = " << height << std::endl;
+			}
+
+
+			luabridge::LuaRef posx = t["posx"];
+			luabridge::LuaRef posy = t["posy"];
+
+			{
+				int posx_n = posx.cast<int>();
+				int posy_n = posy.cast<int>();
+
+				std::cout << "posx = " << posx_n << std::endl;
+				std::cout << "posy = " << posy_n << std::endl;
+			}
 		}
 	}
 
