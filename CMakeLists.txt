@@ -6,13 +6,14 @@ project(${PROJECT_NAME} VERSION 1.0)
 
 set (LUA_LIB lua54)
 
-SET (LUA_ROOT E:/dev/thirdparty/lua/lua-5.4.2_Win64_vc15_lib/)
+SET (LUA_ROOT_PATH thirdparty/lua/lua-5.4.2_Win64_vc15_lib/)
+set (LIB_LUASOCKET_PATH LibLuasocket)
 
-include_directories(${LUA_ROOT}/include)
-link_directories(${LUA_ROOT}/)
+
+include_directories(${LUA_ROOT_PATH}/include)
+link_directories(${LUA_ROOT_PATH}/)
 
 set (LIB_LUASOCKET libluasocket)
-set (LIB_LUASOCKET_PATH LibLuasocket)
 
 file(GLOB_RECURSE LIB_LUASOCKET_SRC "${LIB_LUASOCKET_PATH}/*.cpp" "${LIB_LUASOCKET_PATH}/*.c" "${LIB_LUASOCKET_PATH}/*.h" "${LIB_LUASOCKET_PATH}/*.inc")
 
@@ -36,8 +37,8 @@ file(GLOB LUA_FILES "*.lua")
 
 add_executable ( ${PROJECT_NAME} ${SOURCES} ${LUA_FILES} )
 
-# target_include_directories (${PROJECT_NAME} PUBLIC ${LUA_ROOT}/include)
-# target_link_directories(${PROJECT_NAME} PUBLIC ${LUA_ROOT}/)
+# target_include_directories (${PROJECT_NAME} PUBLIC ${LUA_ROOT_PATH}/include)
+# target_link_directories(${PROJECT_NAME} PUBLIC ${LUA_ROOT_PATH}/)
 
 target_link_libraries ( ${PROJECT_NAME} ${LUA_LIB} ${LIB_LUASOCKET} Ws2_32 )
 
