@@ -1,6 +1,6 @@
 -- witch.lua
 witch = {
-    name="Lucia",
+    name="witch:Lucia",
     interact=function(witch, player)
         if(player.hp == player.maxHp) then
             witch:say("Hi! Come back when you're wounded.")

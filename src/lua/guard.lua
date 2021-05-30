@@ -1,6 +1,6 @@
 -- guard.lua
 guard = {
-    name="Sam",
+    name="guard:Sam",
     interact=function(guard, player)
         guard:say("Hello! Be safe!")
     end
