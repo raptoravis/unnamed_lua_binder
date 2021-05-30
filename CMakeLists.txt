@@ -10,7 +10,7 @@ SET (LUA_ROOT_PATH thirdparty/lua/lua-5.4.2_Win64_vc15_lib/)
 set (LIB_LUASOCKET_PATH thirdparty/LibLuasocket)
 
 
-include_directories(${LUA_ROOT_PATH}/include thirdparty/luawrapper)
+include_directories(${LUA_ROOT_PATH}/include thirdparty/luawrapper thirdparty/LuaBridge-2.6/Source/LuaBridge)
 link_directories(${LUA_ROOT_PATH}/)
 
 set (LIB_LUASOCKET libluasocket)
@@ -26,8 +26,8 @@ target_link_libraries ( ${LIB_LUASOCKET} ${LUA_LIB} )
 #set(SOURCES src/mainapp.cpp src/Student.cpp)
 
 # file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "*.cpp")
-file(GLOB SOURCES "*.cpp" "*.h")
-file(GLOB LUA_FILES "*.lua")
+file(GLOB SOURCES "src/*.cpp" "src/*.h")
+file(GLOB LUA_FILES "src/lua/*.lua")
 
 #Generate the shared library from the sources
 #add_library(testStudent SHARED ${SOURCES})
@@ -42,9 +42,9 @@ add_executable ( ${PROJECT_NAME} ${SOURCES} ${LUA_FILES} )
 
 target_link_libraries ( ${PROJECT_NAME} ${LUA_LIB} ${LIB_LUASOCKET} Ws2_32 )
 
-
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy_if_different ${LUA_FILES} ${CMAKE_CURRENT_BINARY_DIR}
+                COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/lua
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different ${LUA_FILES} ${CMAKE_CURRENT_BINARY_DIR}/lua
 				)
 
 			
