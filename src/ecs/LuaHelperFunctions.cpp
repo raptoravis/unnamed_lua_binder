@@ -89,4 +89,15 @@ namespace luah {
 
         return keys;
     }
+
+	bool loadScript(lua_State* L, const std::string& filename) {
+		if (luaL_loadfile(L, filename.c_str()) || lua_pcall(L, 0, 0, 0)) {
+			std::cout<<"Error: failed to load ("<<filename<<")"<<std::endl;
+
+			return 1;
+		}
+
+		return 0;
+	}
+
 }

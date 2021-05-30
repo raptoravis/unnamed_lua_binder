@@ -1,18 +1,23 @@
 #include <iostream>
 
 #include "Entity.h"
+#include "LuaHelperFunctions.h"
+#include "NpcComponent.h"
+#include "GraphicsComponent.h"
 
 void ecs_test() {
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
 
 	const std::string filename = "ghost.lua";
-	if (luaL_loadfile(L, filename.c_str()) || lua_pcall(L, 0, 0, 0)) {
-		std::cout<<"Error: failed to load ("<<filename<<")"<<std::endl;
-		L = 0;
-	}
 
-    auto e = Entity::loadEntity(L, "ghost");
+	luah::loadScript(L, filename.c_str());
+	//luah::loadGetKeysFunction(L);
+
+	auto e = Entity::loadEntity(L, "ghost");
+	auto npcc = e->get<NpcComponent>();
+	std::cout << e->getType() << " says: " << npcc->getPhrase() << std::endl;
+
 
 	lua_close(L);
 }
