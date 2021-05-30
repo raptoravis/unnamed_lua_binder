@@ -10,7 +10,7 @@ SET (LUA_ROOT_PATH thirdparty/lua/lua-5.4.2_Win64_vc15_lib/)
 set (LIB_LUASOCKET_PATH thirdparty/LibLuasocket)
 
 
-include_directories(${LUA_ROOT_PATH}/include thirdparty/luawrapper thirdparty/LuaBridge-2.6/Source/LuaBridge)
+include_directories(${LUA_ROOT_PATH}/include thirdparty/luawrapper thirdparty/LuaBridge-2.6/Source)
 link_directories(${LUA_ROOT_PATH}/)
 
 set (LIB_LUASOCKET libluasocket)

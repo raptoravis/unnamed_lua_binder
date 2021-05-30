@@ -93,7 +93,7 @@ void embedlua_test (const char* lua_file)
 }
 
 void Character_test(const char* lua_file);
-
+void luabridge_test(const char* lua_file);
 
 int main() {
 	luascript_test("Player.lua");
@@ -101,6 +101,8 @@ int main() {
 	embedlua_test("mood.lua");
 	
 	Character_test("Character_test.lua");
+
+	luabridge_test("luabridge_test.lua");
 
 	return 0;
 }
