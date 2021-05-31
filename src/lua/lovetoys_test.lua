@@ -126,6 +126,14 @@ function MousePressed:__init(x, y, button)
     self.x = x
 end
 
+PlayerMoved = class("PlayerMoved")
+
+function PlayerMoved:__init(origin, target, direction)
+	self.origin = origin
+	self.target = target
+    self.direction = direction
+end
+
 function love.keypressed(key, isrepeat)
     eventManager:fireEvent(KeyPressed(key, isrepeat))
 end
