@@ -3,11 +3,22 @@ local current_folder = "src.lua"
 
 local ecs = require(current_folder .. ".ecslib")
 
+function v_print(name, ...)
+    local s = name .. "("
+    for i = 1, select('#', ...) do
+        s = s .. " " .. tostring(select(i, ...))
+    end
+
+    s = s .. " )"
+
+    print(s)
+end
+
 local love = {
     graphics = {
-        setColor = function (r, g, b) print("setColor") end,
-        circle = function(...) print("circle") end, 
-        rectangle = function(...) print("rectangle") end
+        setColor = function (r, g, b) v_print("setColor", r, g, b) end,
+        circle = function(...) v_print("circle", ...) end, 
+        rectangle = function(...) v_print("rectangle", ...) end
     }
 }
 
@@ -37,7 +48,7 @@ function circle_component(radius)
     return component
 end
 
-function renderer_system()
+function simple_system()
     local system = ecs.system.new({ "position", "shape" })
 
     function system:update(dt, entity)
@@ -76,14 +87,18 @@ end
 function love.load()
     world = ecs.world.new()
 
-    player = world:create_entity()
-
+    local player = world:create_entity()
     player:add_component(ecs.component.new("player"))
-    player:add_component(position_component(1, 1))
+    player:add_component(position_component(10, 10))
     player:add_component(rectangle_component(2, 2))
 
+    local monster = world:create_entity()
+    monster:add_component(ecs.component.new("monster"))
+    monster:add_component(position_component(-10, -10))
+    monster:add_component(circle_component(3))
+
     -- world:add_entity(player)
-    world:add_system(renderer_system())
+    world:add_system(simple_system())
 end
 
 function love.update(dt)
