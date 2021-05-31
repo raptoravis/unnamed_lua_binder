@@ -1,6 +1,15 @@
+-- relative the vscode root directory
 local current_folder = "src.lua"
 
 local ecs = require(current_folder .. ".ecslib")
+
+local love = {
+    graphics = {
+        setColor = function (r, g, b) print("setColor") end,
+        circle = function(...) print("circle") end, 
+        rectangle = function(...) print("rectangle") end
+    }
+}
 
 function position_component(x, y)
     local component = ecs.component.new("position")
@@ -31,6 +40,17 @@ end
 function renderer_system()
     local system = ecs.system.new({ "position", "shape" })
 
+    function system:update(dt, entity)
+        local position = entity:get("position")
+        local shape    = entity:get("shape")
+
+        local speed = 10
+
+        position.x = position.x + dt * speed;
+        position.y = position.y + dt * speed;
+
+    end
+
     function system:draw(entity)
         local position = entity:get("position")
         local shape    = entity:get("shape")
@@ -59,10 +79,10 @@ function love.load()
     player = world:create_entity()
 
     player:add_component(ecs.component.new("player"))
-    player:add_component(position_component())
-    player:add_component(rectangle_component())
+    player:add_component(position_component(1, 1))
+    player:add_component(rectangle_component(2, 2))
 
-    world:add_entity(player)
+    -- world:add_entity(player)
     world:add_system(renderer_system())
 end
 
@@ -72,4 +92,12 @@ end
 
 function love.draw()
     world:draw()
+end
+
+
+love.load()
+
+for i = 1, 10, 1 do 
+    love.update(0.033)
+    love.draw()
 end
