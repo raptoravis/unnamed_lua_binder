@@ -113,14 +113,14 @@ end
 
 KeyPressed = class("KeyPressed")
 
-function KeyPressed:__init(key, isrepeat)
+function KeyPressed:initialize(key, isrepeat)
     self.key = key
     self.isrepeat = isrepeat
 end
 
 MousePressed = class("MousePressed")
 
-function MousePressed:__init(x, y, button)
+function MousePressed:initialize(x, y, button)
     self.button = button
     self.y = y
     self.x = x
@@ -128,7 +128,7 @@ end
 
 PlayerMoved = class("PlayerMoved")
 
-function PlayerMoved:__init(origin, target, direction)
+function PlayerMoved:initialize(origin, target, direction)
 	self.origin = origin
 	self.target = target
     self.direction = direction
