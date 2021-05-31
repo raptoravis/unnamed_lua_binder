@@ -1,5 +1,7 @@
-local entity = require("lib.ecs-core.entity")
-local system = require("lib.ecs-core.system")
+local current_folder = (...):gsub('%.[^%.]+$', '')
+
+local entity = require(current_folder .. ".entity")
+local system = require(current_folder .. ".system")
 
 return {
 	new = function()
