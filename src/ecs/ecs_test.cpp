@@ -5,6 +5,7 @@
 #include "NpcComponent.h"
 #include "GraphicsComponent.h"
 
+//https://eliasdaler.wordpress.com/2015/08/10/using-lua-and-cpp-in-practice/
 void ecs_test() {
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
