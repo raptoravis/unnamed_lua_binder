@@ -32,6 +32,16 @@ local love = {
 
 
 function love.load()
+    eventManager = EventManager()
+
+    listener = class("Listener")
+    function listener:onTriggered(...)
+        v_print("onTriggered", ...)
+    end
+
+    eventManager:addListener("KeyPressed", listener, listener.onTriggered)
+    eventManager:addListener("MousePressed", listener, listener.onTriggered)
+
     -- Define a Component class.
     local Position = Component.create("position", {"x", "y"}, {x = 0, y = 0})
     local Velocity = Component.create("velocity", {"vx", "vy"})
@@ -101,9 +111,39 @@ function love.draw()
     engine:draw()
 end
 
+KeyPressed = class("KeyPressed")
+
+function KeyPressed:__init(key, isrepeat)
+    self.key = key
+    self.isrepeat = isrepeat
+end
+
+MousePressed = class("MousePressed")
+
+function MousePressed:__init(x, y, button)
+    self.button = button
+    self.y = y
+    self.x = x
+end
+
+function love.keypressed(key, isrepeat)
+    eventManager:fireEvent(KeyPressed(key, isrepeat))
+end
+
+function love.mousepressed(x, y, button)
+    eventManager:fireEvent(MousePressed(x, y, button))
+end
+
 love.load()
 
 for i = 1, 10, 1 do 
+    if i == 5 then
+        love.keypressed('a', false)
+    end
+    if i == 6 then
+        love.mousepressed(0, 0, 'left')
+    end
+
     love.update(0.033)
     love.draw()
 end
