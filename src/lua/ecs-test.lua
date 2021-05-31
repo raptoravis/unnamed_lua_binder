@@ -1,7 +1,7 @@
 -- relative the vscode root directory
-local current_folder = "src.lua"
+local current_folder = "src.lua."
 
-local ecs = require(current_folder .. ".ecslib")
+local ecs = require(current_folder .. "ecslib")
 
 function v_print(name, ...)
     local s = name .. "("

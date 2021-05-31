@@ -1,6 +1,6 @@
 -- relative the vscode root directory
-local current_folder = "src.lua"
-local tiny = require(current_folder .. '.tiny-ecs')
+local current_folder = "src.lua."
+local tiny = require(current_folder .. 'tiny-ecs')
 
 --[[
 local world = tiny.world()
