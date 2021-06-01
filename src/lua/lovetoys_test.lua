@@ -8,7 +8,7 @@ local lovetoys = require(current_folder .. 'lovetoys')
 -- debug = true will enable library console logs
 -- globals = true will register lovetoys classes in the global namespace
 -- so you can access i.e. Entity() in addition to lovetoys.Entity()
-lovetoys.initialize({globals = true, debug = true})
+lovetoys.initialize({globals = false, debug = true})
 
 
 function v_print(name, ...)
@@ -32,9 +32,9 @@ local love = {
 
 
 function love.load()
-    eventManager = EventManager()
+    eventManager = lovetoys.EventManager()
 
-    listener = class("Listener")
+    listener = lovetoys.class("Listener")
     function listener:onTriggered(...)
         v_print("onTriggered", ...)
     end
@@ -43,14 +43,14 @@ function love.load()
     eventManager:addListener("MousePressed", listener, listener.onTriggered)
 
     -- Define a Component class.
-    local Position = Component.create("position", {"x", "y"}, {x = 0, y = 0})
-    local Velocity = Component.create("velocity", {"vx", "vy"})
+    local Position = lovetoys.Component.create("position", {"x", "y"}, {x = 0, y = 0})
+    local Velocity = lovetoys.Component.create("velocity", {"vx", "vy"})
 
     -- Create and initialize a new Entity.
     -- Note we can access Entity() in the global
     -- namespace since we used globals = true in 
     -- the lovetoys initialization.
-    local player = Entity()
+    local player = lovetoys.Entity()
     player:initialize()
 
     -- Add position and velocity components. We are passing custom default values.
@@ -58,7 +58,7 @@ function love.load()
     player:add(Velocity(100, 100))
     
     -- Create a System class as lovetoys.System subclass.
-    local MoveSystem = class("MoveSystem", System)
+    local MoveSystem = lovetoys.class("MoveSystem", lovetoys.System)
 
     -- Define this System's requirements.
     function MoveSystem:requires()
@@ -75,7 +75,7 @@ function love.load()
     end
 
     -- Create a draw System.
-    local DrawSystem = class("DrawSystem", System)
+    local DrawSystem = lovetoys.class("DrawSystem", lovetoys.System)
 
     -- Define this System requirements.
     function DrawSystem:requires()
@@ -89,7 +89,7 @@ function love.load()
     end
 
     -- Finally, we setup an Engine.
-    engine = Engine()
+    engine = lovetoys.Engine()
     engine:addEntity(player)
 
     -- Let's add the MoveSystem to the Engine. Its update() 
@@ -111,14 +111,14 @@ function love.draw()
     engine:draw()
 end
 
-KeyPressed = class("KeyPressed")
+KeyPressed = lovetoys.class("KeyPressed")
 
 function KeyPressed:initialize(key, isrepeat)
     self.key = key
     self.isrepeat = isrepeat
 end
 
-MousePressed = class("MousePressed")
+MousePressed = lovetoys.class("MousePressed")
 
 function MousePressed:initialize(x, y, button)
     self.button = button
@@ -126,7 +126,7 @@ function MousePressed:initialize(x, y, button)
     self.x = x
 end
 
-PlayerMoved = class("PlayerMoved")
+PlayerMoved = lovetoys.class("PlayerMoved")
 
 function PlayerMoved:initialize(origin, target, direction)
 	self.origin = origin
